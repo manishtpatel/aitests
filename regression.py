@@ -10,6 +10,11 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
+# SEtup tensorboard
+tensorboard_callback = keras.callbacks.TensorBoard(
+    log_dir='./logs'
+)
+
 # download dataset
 dataset_path = keras.utils.get_file(
     'auto-mpg.data', 'https://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data')
@@ -98,7 +103,7 @@ EPOCHS = 1000
 early_stop = keras.callbacks.EarlyStopping(monitor='val_loss', patience=50)
 
 history = model.fit(normed_train_data, train_labels, epochs=EPOCHS,
-                    validation_split=0.2, verbose=0, callbacks=[early_stop, PrintDot()])
+                    validation_split=0.2, verbose=0, callbacks=[early_stop, PrintDot(), tensorboard_callback])
 
 hist = pd.DataFrame(history.history)
 hist['epoch'] = history.epoch
@@ -144,6 +149,7 @@ plt.axis('square')
 plt.xlim(0, plt.xlim()[1])
 plt.ylim(0, plt.ylim()[1])
 _ = plt.plot([-100, 100], [-100, 100])
+
 
 error = test_predictions - test_labels
 plt.hist(error, bins=25)
