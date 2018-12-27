@@ -10,7 +10,8 @@ import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 
-# SEtup tensorboard
+# SEtup tensorboard 
+# tensorboard --logdir ./logs
 tensorboard_callback = keras.callbacks.TensorBoard(
     log_dir='./logs'
 )
